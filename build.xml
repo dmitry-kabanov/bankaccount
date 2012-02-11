@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="BankAccount" default="build">
 
-    <target name="build" depends="prepare, phpunit, pdepend, phpcpd, phpcs"/>
+    <target name="build" depends="prepare, phpunit, pdepend, phpcpd, phpcs, phpmd"/>
 
     <target name="prepare" depends="clean, phpab" description="Prepare for build">
         <mkdir dir="${basedir}/build/coverage"/>
@@ -74,6 +74,16 @@
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
             <arg value="--standard=${basedir}/build/phpcs.xml"/>
             <arg value="${basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD">
+        <exec executable="phpmd">
+            <arg path="${basedir}/src"/>
+            <arg value="xml"/>
+            <arg value="${basedir}/build/phpmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg value="${basedir}/build/logs/pmd.xml"/>
         </exec>
     </target>
 
