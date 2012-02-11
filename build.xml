@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="BankAccount" default="build">
 
-    <target name="build" depends="prepare, phpunit, pdepend, phpcpd"/>
+    <target name="build" depends="prepare, phpunit, pdepend, phpcpd, phpcs"/>
 
     <target name="prepare" depends="clean, phpab" description="Prepare for build">
         <mkdir dir="${basedir}/build/coverage"/>
@@ -65,6 +65,15 @@
             <arg value="--log-pmd"/>
             <arg value="${basedir}/build/logs/pmd-cpd.xml"/>
             <arg path="${basedir}/src"/>
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
+        <exec executable="phpcs" output="/dev/null">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=${basedir}/build/phpcs.xml"/>
+            <arg value="${basedir}/src"/>
         </exec>
     </target>
 
